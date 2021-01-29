@@ -25,7 +25,9 @@ defmodule Whereami.MixProject do
     [
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.23", only: :dev, runtime: false},
-      {:plug_cowboy, "~> 2. 0"}
+      {:jason, "~> 1.2"},
+      {:plug_cowboy, "~> 2.0"},
+      {:tesla, "~> 1.4"}
     ]
   end
 end

@@ -1,9 +1,9 @@
 defmodule Whereami.Router do
   use Plug.Router
 
-  plug Plug.Logger
-  plug :match
-  plug :dispatch
+  plug(Plug.Logger)
+  plug(:match)
+  plug(:dispatch)
 
   get "/" do
     conn

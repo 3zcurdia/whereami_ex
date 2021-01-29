@@ -10,6 +10,7 @@ defmodule Whereami.Application do
       # {Whereami.Worker, arg}
       {Plug.Cowboy, scheme: :http, plug: Whereami.Router, options: [port: cowboy_port()]}
     ]
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Whereami.Supervisor]
