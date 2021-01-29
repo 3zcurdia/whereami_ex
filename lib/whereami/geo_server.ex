@@ -11,7 +11,7 @@ defmodule Whereami.GeoServer do
   end
 
   def fetch(ip) do
-    GenServer.call(__MODULE__, {:get, ip})
+    GenServer.call(__MODULE__, {:fetch, ip})
   end
 
   # Callbacks

@@ -3,12 +3,21 @@ defmodule Whereami.Router do
 
   plug(Plug.Logger)
   plug(:match)
+
+  plug(Plug.Parsers,
+    parsers: [:json],
+    pass: ["application/json"],
+    json_decoder: Jason
+  )
+
   plug(:dispatch)
 
   get "/" do
+    info = Whereami.geo_info(conn)
+
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(200, "{ 'hello' : 'world!' }")
+    |> send_resp(200, Jason.encode!(info))
   end
 
   match _ do
