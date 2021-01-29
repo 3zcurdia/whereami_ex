@@ -7,7 +7,7 @@ defmodule Whereami.Application do
 
   def start(_type, _args) do
     children = [
-      # {Whereami.Worker, arg}
+      {Whereami.GeoServer, []},
       {Plug.Cowboy, scheme: :http, plug: Whereami.Router, options: [port: cowboy_port()]}
     ]
 
