@@ -17,6 +17,6 @@ defmodule Whereami.Application do
     Supervisor.start_link(children, opts)
   end
 
-  defp cowboy_port, do: Application.get_env(:wherami, :cowboy_port, 8080)
+  defp cowboy_port, do: Application.get_env(:whereami, :cowboy_port, 4000)
   defp cowboy_scheme, do: if Mix.env == :prod, do: :https, else: :http
 end
