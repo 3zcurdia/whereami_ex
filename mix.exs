@@ -25,6 +25,7 @@ defmodule Whereami.MixProject do
   defp deps do
     [
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:distillery, "~> 2.0", runtime: false},
       {:ex_doc, "~> 0.23", only: :dev, runtime: false},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.0"},
