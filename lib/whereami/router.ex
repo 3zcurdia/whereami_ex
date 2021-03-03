@@ -13,11 +13,11 @@ defmodule Whereami.Router do
   plug(:dispatch)
 
   get "/" do
-    info = Whereami.geo_info(conn)
+    {:ok, data} = Whereami.geo_info(conn)
 
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(200, Jason.encode!(info))
+    |> send_resp(200, Jason.encode!(data))
   end
 
   match _ do

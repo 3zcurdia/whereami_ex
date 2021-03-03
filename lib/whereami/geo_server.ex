@@ -24,18 +24,18 @@ defmodule Whereami.GeoServer do
   def handle_call({:fetch, ip}, _from, bucket) do
     case Bucket.get(bucket, ip) do
       nil ->
-        {:reply, geo(ip, bucket), bucket}
+        {:reply, geo(bucket, ip), bucket}
 
-      info ->
-        {:reply, info, bucket}
+      data ->
+        {:reply, data, bucket}
     end
   end
 
-  defp geo(ip, bucket) do
+  defp geo(bucket, ip) do
     case IpInfo.geo(ip) do
-      {:ok, info} ->
-        Bucket.put(bucket, ip, info)
-        info
+      {:ok, data} ->
+        Bucket.put(bucket, ip, data)
+        data
 
       {:error, msg} ->
         Logger.error("#{__MODULE__}: #{msg}")
