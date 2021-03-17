@@ -4,7 +4,9 @@ defmodule Whereami.Worker do
   """
   require Logger
   use GenServer
-  alias Whereami.{Bucket, IpInfo}
+  alias Whereami.IpInfo
+
+  @table :data_cache
 
   def start_link(_opts) do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
@@ -17,24 +19,32 @@ defmodule Whereami.Worker do
   # Callbacks
   @impl true
   def init(state) do
-    Bucket.start_link(state)
+    :ets.new(@table, [
+      :set,
+      :named_table,
+      :protected,
+      read_concurrency: true,
+      write_concurrency: true
+    ])
+
+    {:ok, state}
   end
 
   @impl true
-  def handle_call({:find, ip}, _from, bucket) do
-    case Bucket.get(bucket, ip) do
-      nil ->
-        {:reply, fetch(bucket, ip), bucket}
+  def handle_call({:find, ip}, _from, state) do
+    case :ets.lookup(@table, ip) do
+      [{_key, data} | _] ->
+        {:reply, {:ok, data}, state}
 
-      data ->
-        {:reply, {:ok, data}, bucket}
+      _ ->
+        {:reply, fetch(ip), state}
     end
   end
 
-  defp fetch(bucket, ip) do
+  defp fetch(ip) do
     case IpInfo.find(ip) do
       {:ok, data} ->
-        Bucket.put(bucket, ip, data)
+        :ets.insert(@table, {ip, data})
         {:ok, data}
 
       {:error, msg} ->
