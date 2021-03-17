@@ -8,7 +8,7 @@ defmodule Whereami.IpInfo do
 
   ## Examples
 
-      iex> Whereami.IpInfo.geo("8.8.8.8")
+      iex> Whereami.IpInfo.find("8.8.8.8")
       {:ok,
        %{
          "anycast" => true,
@@ -22,7 +22,7 @@ defmodule Whereami.IpInfo do
        }}
 
   """
-  def geo(ip_address) do
+  def find(ip_address) do
     ip_address
     |> url
     |> Tesla.get()
@@ -36,12 +36,12 @@ defmodule Whereami.IpInfo do
   defp decode({:ok, %{status: 200, body: body}}) do
     body
     |> Jason.decode()
-    |> sanitize
+    |> remove_readme
   end
 
   defp decode({:ok, response}), do: {:error, response}
   defp decode({:error, _msg} = error), do: error
 
-  def sanitize({:ok, map}), do: {:ok, Map.delete(map, "readme")}
-  def sanitize(any), do: any
+  defp remove_readme({:ok, map}), do: {:ok, Map.delete(map, "readme")}
+  defp remove_readme(any), do: any
 end

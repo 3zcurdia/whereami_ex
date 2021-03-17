@@ -7,8 +7,9 @@ defmodule Whereami.Application do
 
   def start(_type, _args) do
     children = [
-      {Whereami.GeoServer, []},
-      {Plug.Cowboy, scheme: cowboy_scheme(), plug: Whereami.Router, options: [port: cowboy_port()]}
+      {Whereami.Worker, []},
+      {Plug.Cowboy,
+       scheme: cowboy_scheme(), plug: Whereami.Router, options: [port: cowboy_port()]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -18,5 +19,5 @@ defmodule Whereami.Application do
   end
 
   defp cowboy_port, do: Application.get_env(:whereami, :cowboy_port, 4000)
-  defp cowboy_scheme, do: if Mix.env == :prod, do: :https, else: :http
+  defp cowboy_scheme, do: if(Mix.env() == :prod, do: :https, else: :http)
 end

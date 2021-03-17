@@ -13,7 +13,7 @@ defmodule Whereami.Router do
   plug(:dispatch)
 
   get "/" do
-    {:ok, data} = Whereami.geo_info(conn)
+    {:ok, data} = Whereami.find(conn)
 
     conn
     |> put_resp_content_type("application/json")
