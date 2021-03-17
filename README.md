@@ -1,6 +1,6 @@
 # Whereami
 
-**TODO: Add description**
+Ipinfo service, with basic memory cache
 
 ## Installation
 
@@ -19,3 +19,6 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/whereami](https://hexdocs.pm/whereami).
 
+## MIT License
+
+Copyright (c) 2021 Luis Ezcurdia
